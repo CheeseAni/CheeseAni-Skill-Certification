@@ -23,9 +23,9 @@ watch([id, staff, password], async () => {
 </script>
 
 <template>
-  <div class="top-box">
-    <n-h1>CheeseAni 技能认证</n-h1>
-    <n-space vertical>
+  <n-space vertical justify="center">
+    <n-h1 style="text-align: center;">CheeseAni 技能认证</n-h1>
+    <n-space vertical align="center">
       <n-space>
         <n-input-group>
           <n-input-group-label>{{ placeholder_id }}</n-input-group-label>
@@ -65,16 +65,5 @@ watch([id, staff, password], async () => {
         <n-text v-else>验证失败</n-text>
       </n-space>
     </n-space>
-  </div>
+  </n-space>
 </template>
-
-<style scoped>
-.top-box {
-  display: grid;
-  justify-content: center;
-
-  >* {
-    text-align: center;
-  }
-}
-</style>

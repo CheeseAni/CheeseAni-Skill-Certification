@@ -41,7 +41,7 @@ jobs:
         run: pnpm build
 
       - name: Verify build output
-        run: test -d ./dist  # 确保构建目录存在
+        run: test -d ./dist # 确保构建目录存在
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
@@ -49,7 +49,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist  # 假设构建后的文件在 dist 文件夹中
+          path: ./dist # 假设构建后的文件在 dist 文件夹中
 
       - name: Deploy to GitHub Pages
         id: deployment
