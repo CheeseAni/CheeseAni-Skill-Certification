@@ -1,16 +1,10 @@
-/**
- * 使用Web Crypto API生成字符串的SHA-256哈希
- * @param input 输入字符串
- * @returns SHA-256十六进制字符串
- * @throws 如果浏览器不支持Web Crypto API或生成失败
- */
-export async function sha256(input: string): Promise<string> {
+async function _hash(input: string, algorithm: AlgorithmIdentifier = "SHA-256") {
     // 编码输入字符串为UTF-8字节数组
     const encoder = new TextEncoder()
     const data = encoder.encode(input)
 
     // 生成SHA-256哈希
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+    const hashBuffer = await crypto.subtle.digest(algorithm, data)
 
     // 将ArrayBuffer转换为十六进制字符串
     const hashArray = Array.from(new Uint8Array(hashBuffer))
@@ -19,4 +13,13 @@ export async function sha256(input: string): Promise<string> {
         .join('')
 
     return hashHex
+}
+export async function hash(input: string, algorithm: AlgorithmIdentifier = "SHA-256", cost: number = 0): Promise<string> {
+    const time = 2 ** cost
+
+    let res: string = await _hash(input, algorithm)
+    for (let i = 1; i < time; ++i)
+        res = await _hash(res, algorithm)
+
+    return res
 }

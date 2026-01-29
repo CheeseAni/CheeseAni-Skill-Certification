@@ -10,13 +10,13 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build"
   },
-  "packageManager": "pnpm@10.26.0",
+  "packageManager": "pnpm@10.28.2",
   "dependencies": {
     "vue": "^3.5.27"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",
-    "@types/node": "^25.0.10",
+    "@types/node": "^25.1.0",
     "@vitejs/plugin-vue": "^6.0.3",
     "@vue/tsconfig": "^0.8.1",
     "naive-ui": "^2.43.2",
