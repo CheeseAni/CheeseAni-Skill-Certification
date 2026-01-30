@@ -1,4 +1,6 @@
 import { hash } from "@/utils"
+import { NA } from "naive-ui"
+import { h, type VNode } from "vue"
 
 declare const brand: unique symbol
 
@@ -47,8 +49,8 @@ export function get_cert_description(cert: cert_时轴 | cert_后期): cert_时�
     }
 }
 
-export type 备注 = string & { readonly [brand]: '备注' }
-function create_备注(str: string): 备注 {
+export type 备注 = (string | VNode) & { readonly [brand]: '备注' }
+function create_备注(str: string | VNode): 备注 {
     return str as 备注
 }
 
@@ -56,6 +58,9 @@ function create_备注(str: string): 备注 {
  * @returns [id_hash, others_hash, cert]
  */
 export async function generate_cert(id: string, staff: string, secret: string): Promise<[string, string, string]> {
+    if (secret === "null")
+        return [id, staff, staff === id ? staff : `${staff}@${id}`]
+
     const id_hash = await hash(await hash(id, "SHA-256", 8), "SHA-1")
     const staff_hash = await hash(staff, "SHA-512", 8)
     const secret_hash = await hash(secret, "SHA-512", Boolean(secret) ? 20 : 0)
@@ -65,7 +70,14 @@ export async function generate_cert(id: string, staff: string, secret: string): 
     return [id_hash, others_hash, await hash(id_hash + others_hash, 'SHA-1')]
 }
 
+namespace remark_entry {
+    let url
+    url = "https://github.com/op200"
+    export const op200 = create_备注(h(NA, { href: url }, url))
+}
+
 export const CERTIFICATION = new Map<string, [cert_时轴, cert_后期, 备注?]>([
     ['01aca5c1dfc95e074ca5e816cdb9adc4666458de', [cert_时轴.中级, cert_后期.未评级, create_备注("这是测试登记")]],
-    ['da401055198422578498dbbd878187318d308a27', [cert_时轴.高级, cert_后期.高级]],
+    ['op200', [cert_时轴.高级, cert_后期.高级, remark_entry.op200]], // 明文
+    ['da401055198422578498dbbd878187318d308a27', [cert_时轴.高级, cert_后期.高级, remark_entry.op200]], // 无密钥
 ])
